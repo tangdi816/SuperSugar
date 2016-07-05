@@ -92,6 +92,16 @@ var CWelcomeLayer=cc.Layer.extend({
     });
     this.addChild(this.m_pRegLayer, 7);
 
+    //创建等待光标
+    this.m_pWaitCursor=new CWaitCursor();
+    this.m_pWaitCursor.attr({
+      anchorX:0,
+      anchorY:0,
+      x:0,
+      y:0
+    });
+    this.addChild(this.m_pWaitCursor, 60);
+
     return true;
   },
 
@@ -189,6 +199,16 @@ var CWelcomeLayer=cc.Layer.extend({
     var Msg=new CPopMsg(iBtnNum, strMsg, dtClose, funOk, funCancel);
     Msg.setGlobalZOrder(20);
     this.addChild(Msg, 50);
+  },
+
+  //开启等待光标
+  EnWaitCursor:function(){
+    this.m_pWaitCursor.ShowWaitCursor();
+  },
+
+  //关闭等待光标
+  DisWaitCursor:function(){
+    this.m_pWaitCursor.HideWaitCursor();
   }
 });
 

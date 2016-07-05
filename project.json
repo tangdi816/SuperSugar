@@ -17,6 +17,7 @@
         "src/welcom/welcom_scene.js",
         "src/welcom/register_layer.js",
         "src/common/common_functions.js",
+        "src/common/wait_cursor.js",
         "src/msg/pop_msg.js"
     ]
 }

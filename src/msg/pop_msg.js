@@ -183,7 +183,7 @@ var CPopMsg=cc.Layer.extend({
 
   //背景淡入
   BgFadeIn:function(){
-    var pAc1=cc.fadeTo(0.2, 100);
+    var pAc1=cc.fadeTo(0.2, 150);
     var pAc2=cc.callFunc(this.ShowMgsEdg, this);  //显示消息框
     var pAc3=cc.sequence(pAc1, pAc2);
     this.m_clBlackBg.runAction(pAc3);

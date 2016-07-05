@@ -243,7 +243,9 @@ var CRegLayer=cc.Layer.extend({
       //弹出提示框
       this.m_pRoot.PopMsg(1, strMsg, 5, this.PMCallBack.bind(this), null);
     }else{    //验证成功
-      //开启转圈
+      //开启等待光标
+      this.m_pRoot.EnWaitCursor();
+      //提交注册
 
     }
   },

@@ -16,10 +16,14 @@ var res = {
     wlc_sky_png:"res/pt/wlc_sky.png",
     cb_plist:"res/pt/click_btn.plist",
     cb_png:"res/pt/click_btn.png",
+    wc_plist:"res/pt/wait_cursor_pt.plist",
+    wc_png:"res/pt/wait_cursor_pt.png",
 
     msg_cancel_png:"res/msg/msg_cancel.png",
     msg_ok_png:"res/msg/msg_ok.png",
     msg_bg_png:"res/msg/msg_bg.png",
+
+    wc_bg_png:"res/common/wait_cursor_bg.png",
 };
 
 var g_resources = [];
