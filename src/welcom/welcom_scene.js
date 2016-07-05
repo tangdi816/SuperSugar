@@ -177,6 +177,18 @@ var CWelcomeLayer=cc.Layer.extend({
     var pAc2=cc.moveTo(0.3, cc.p(0, 0));
     pAc2.easing(cc.easeElasticOut(0.2));
     this.m_pRegLayer.runAction(pAc2);
+  },
+
+  //弹出消息框
+  //参数1:按键数量
+  //参数2:消息文字
+  //参数3:自动关闭时间：小于等于0不自动关闭
+  //参数4:确认按键回调
+  //参数5:取消按键回调
+  PopMsg:function(iBtnNum, strMsg, dtClose, funOk, funCancel){
+    var Msg=new CPopMsg(iBtnNum, strMsg, dtClose, funOk, funCancel);
+    Msg.setGlobalZOrder(20);
+    this.addChild(Msg, 50);
   }
 });
 

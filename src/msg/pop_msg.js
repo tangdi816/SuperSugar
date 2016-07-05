@@ -92,17 +92,21 @@ var CPopMsg=cc.Layer.extend({
     }//end if
 
     //创建消息文字
-    this.m_lbMsg=new cc.LabelTTF(strMsg, 22, "", cc.size(470, 460), cc.TEXT_ALIGNMENT_CENTER, cc.VERTICAL_TEXT_ALIGNMENT_CENTER);
+    this.m_lbMsg=new cc.LabelTTF(strMsg, 48, "ArialRoundedMTBold", cc.size(470, 460), cc.TEXT_ALIGNMENT_CENTER, cc.VERTICAL_TEXT_ALIGNMENT_CENTER);
     this.m_lbMsg.attr({
       x:284,
       y:342.5,
       anchorX:0.5,
       anchorY:0.5
     });
+    this.m_lbMsg.setFontSize(48);
     this.m_spBg.addChild(this.m_lbMsg, 1);
 
     //点击事件锁定
     this.m_bLockTouch=false;
+
+    //按键选择标志
+    this.m_strBtnSelect="";
 
     //背景淡入
     this.BgFadeIn();
@@ -123,6 +127,11 @@ var CPopMsg=cc.Layer.extend({
           break;
       }
 
+      if(ClickTest(this.m_spOkBtn, posTouch, DefCA)){           //点中确定按键
+        bRes=true;
+      }else if(ClickTest(this.m_spCancel, posTouch, DefCA)){    //点中取消按键
+        bRes=true;
+      }
     }while(false);
     return bRes;
   },
@@ -146,8 +155,25 @@ var CPopMsg=cc.Layer.extend({
           break;
       }
 
-
+      if(ClickTest(this.m_spOkBtn, posTouch, ClickPT)){           //点中确定按键
+        bRes=true;
+        //锁定点击
+        this.m_bLockTouch=true;
+        //记录按键点击
+        this.m_strBtnSelect="OK";
+      }else if(ClickTest(this.m_spCancel, posTouch, ClickPT)){    //点中取消按键
+        bRes=true;
+        //锁定点击
+        this.m_bLockTouch=true;
+        //记录按键点击
+        this.m_strBtnSelect="Cancel";
+      }
     }while(false);
+    //点中按键
+    if(bRes){
+      //关闭消息框
+      this.Close();
+    }
     return bRes;
   },
 
@@ -168,7 +194,7 @@ var CPopMsg=cc.Layer.extend({
     var pAc1=cc.scaleTo(0.3, 1.0);
     pAc1.easing(cc.easeElasticOut(0.2));
     if(0<this.m_iAutoClose){
-      var pAc2=cc.callFunc();
+      var pAc2=cc.callFunc(this.EnAutoClose, this);   //开启自动关闭
       var pAc3=cc.sequence(pAc1, pAc2);
       this.m_spBg.runAction(pAc3);
     }else{
@@ -177,7 +203,57 @@ var CPopMsg=cc.Layer.extend({
   },
 
   //开启自动关闭
-  OpenAutoClose:function(){
+  EnAutoClose:function(){
+    this.scheduleOnce(this.Close, this.m_iAutoClose);
+  },
 
+  //关闭弹出窗
+  Close:function(){
+    //关闭自动关闭
+    this.unscheduleAllCallbacks();
+    //调用关闭动作
+    this.HideMsg();
+  },
+
+  //消息框缩小
+  HideMsg:function(){
+    var pAc1=cc.scaleTo(0.2, 0);
+    var pAc2=cc.callFunc(this.FadeOutBg, this);
+    var pAc3=cc.sequence(pAc1, pAc2);
+    this.m_spBg.runAction(pAc3);
+  },
+
+  //颜色背景淡出
+  FadeOutBg:function(){
+    var pAc1=cc.fadeTo(0.2, 0);
+    var pAc2=cc.callFunc(this.ClearSelf, this);
+    var pAc3=cc.sequence(pAc1, pAc2);
+    this.m_clBlackBg.runAction(pAc3);
+  },
+
+  //清理资源
+  ClearSelf:function(){
+    //解析按键选择
+    if(""===this.m_strBtnSelect){                 //未选择
+      if(1<this.m_iBtnNum&& "function"===typeof this.m_funCancel){
+        //有取消按键，执行取消回调
+        this.m_funCancel();
+      }else if(1===this.m_iBtnNum&& "function"===typeof this.m_funOk){
+        //没有取消按键，执行确定回调
+        this.m_funOk();
+      }
+    }else if("OK"===this.m_strBtnSelect){        //确定
+      if("function"===typeof this.m_funOk){
+        //有确定回调函数，执行确定回调
+        this.m_funOk();
+      }
+    }else if("Cancel"===this.m_strBtnSelect){   //取消
+      if("function"===typeof this.m_funCancel){
+        //有取消回调函数，执行取消回调
+        this.m_funCancel();
+      }
+    }
+    //释放自己
+    this.removeFromParent(true);
   }
 });

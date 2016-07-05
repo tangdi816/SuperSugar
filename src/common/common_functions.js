@@ -12,7 +12,7 @@ function ClickTest(pNode, posTouch, funClickAction)
   var bRes=false;
   do{
     //节点为空或节点隐藏，返回false
-    if(!pNode|| pNode.isVisible())
+    if(!pNode|| !pNode.isVisible())
       break;
     //将检测节点0,0坐标转换到世界坐标系
     var locWord=pNode.convertToWorldSpace(cc.p(0, 0));

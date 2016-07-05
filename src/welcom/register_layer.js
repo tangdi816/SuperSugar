@@ -204,7 +204,8 @@ var CRegLayer=cc.Layer.extend({
         bRes=false;
         break;
       }
-      if(!re.test(this.m_strPW)|| ""===this.m_strPW){
+      var re1=/^[a-zA-Z0-9]+$/g;
+      if(!re1.test(this.m_strPW)|| ""===this.m_strPW){
         strMsg="密码输入错误，请重新输入！";
         this.m_strPW="";
         this.m_ebPW.setString("");
@@ -212,7 +213,8 @@ var CRegLayer=cc.Layer.extend({
         bRes=false;
         break;
       }
-      if(!re.test(this.m_strPWConf)|| ""===this.m_strPWConf){
+      var re2=/^[a-zA-Z0-9]+$/g;
+      if(!re2.test(this.m_strPWConf)|| ""===this.m_strPWConf){
         strMsg="确认密码输入错误，请重新输入！";
         this.m_strPWConf="";
         this.m_ebPWConf.setString("");
@@ -231,15 +233,27 @@ var CRegLayer=cc.Layer.extend({
 
     }while(false);
 
-    //验证失败
-    if(!bRes){
+    if(!bRes){  //验证失败
       //解锁点击
       this.m_bLockTouch=false;
+      //隐藏输入框
+      this.m_ebId.setVisible(false);
+      this.m_ebPW.setVisible(false);
+      this.m_ebPWConf.setVisible(false);
       //弹出提示框
-
-    }else{
+      this.m_pRoot.PopMsg(1, strMsg, 5, this.PMCallBack.bind(this), null);
+    }else{    //验证成功
+      //开启转圈
 
     }
+  },
+
+  //弹出框回调
+  PMCallBack:function(){
+    //显示输入框
+    this.m_ebId.setVisible(true);
+    this.m_ebPW.setVisible(true);
+    this.m_ebPWConf.setVisible(true);
   },
 
   onTouchCancelled:function(touch, event){
