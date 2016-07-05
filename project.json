@@ -9,13 +9,14 @@
     "renderMode" : 0,
     "engineDir":"frameworks/cocos2d-html5",
 
-    "modules" : ["cocos2d"],
+    "modules" : ["cocos2d", "extensions"],
 
     "jsList" : [
         "src/resource.js",
         "src/welcom/welcom_btns.js",
         "src/welcom/welcom_scene.js",
         "src/welcom/register_layer.js",
-        "src/common/common_functions.js"
+        "src/common/common_functions.js",
+        "src/msg/pop_msg.js"
     ]
 }

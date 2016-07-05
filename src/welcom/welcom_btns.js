@@ -6,7 +6,7 @@
 //欢迎按键页面
 var CWelcomBtns=cc.Layer.extend({
   //获取屏幕尺寸
-  sizWin:cc.winSize,
+  m_sizWin:cc.winSize,
 
   //重载构造函数
   //参数传入场景根节点
@@ -15,35 +15,35 @@ var CWelcomBtns=cc.Layer.extend({
     this._super();
 
     //保存场景根节点
-    this.pRoot=pSceneRoot;
+    this.m_pRoot=pSceneRoot;
 
     //创建登录按键
-    this.spLoginBtn=new cc.Sprite("res/login/btn_bg.png");
-    this.spLoginBtn.attr({
-      x:this.sizWin.width/2,
-      y:this.sizWin.height/2+80
+    this.m_spLoginBtn=new cc.Sprite("res/welcome/btn_bg.png");
+    this.m_spLoginBtn.attr({
+      x:this.m_sizWin.width/2,
+      y:this.m_sizWin.height/2+80
     });
-    this.addChild(this.spLoginBtn, 1);
-    var spWordLogin=new cc.Sprite("res/login/login.png");
+    this.addChild(this.m_spLoginBtn, 1);
+    var spWordLogin=new cc.Sprite("res/welcome/login.png");
     spWordLogin.attr({
       x:254,
       y:71.5
     });
-    this.spLoginBtn.addChild(spWordLogin, 1);
+    this.m_spLoginBtn.addChild(spWordLogin, 1);
 
     //创建注册按键
-    this.spRegtBtn=new cc.Sprite("res/login/btn_bg.png");
-    this.spRegtBtn.attr({
-      x:this.sizWin.width/2,
-      y:this.sizWin.height/2-80
+    this.m_spRegtBtn=new cc.Sprite("res/welcome/btn_bg.png");
+    this.m_spRegtBtn.attr({
+      x:this.m_sizWin.width/2,
+      y:this.m_sizWin.height/2-80
     });
-    this.addChild(this.spRegtBtn, 1);
-    var spWordReg=new cc.Sprite("res/login/register.png");
+    this.addChild(this.m_spRegtBtn, 1);
+    var spWordReg=new cc.Sprite("res/welcome/register.png");
     spWordReg.attr({
       x:254,
       y:71.5
     });
-    this.spRegtBtn.addChild(spWordReg, 1);
+    this.m_spRegtBtn.addChild(spWordReg, 1);
 
     //注册单击事件
     if('touches' in cc.sys.capabilities){
@@ -62,11 +62,18 @@ var CWelcomBtns=cc.Layer.extend({
         onMouseUp:this.onTouchEnded.bind(this)
       }, this);
     }
+
+    //点击锁
+    this.m_bLockTouch=false;
   },//end ctor function
 
   onTouchBegan:function(touch, event){
     var bRes=false;
     do{
+      //点击被锁定
+      if(this.m_bLockTouch)
+        break;
+
       //提取点击坐标
       var posTouch=touch.getLocation();
       //忽略鼠标右键点击
@@ -76,10 +83,10 @@ var CWelcomBtns=cc.Layer.extend({
       }
 
       //检查注册和登录按键点击
-      if(ClickTest(this.spLoginBtn, posTouch, DefCA)){
+      if(ClickTest(this.m_spLoginBtn, posTouch, DefCA)){
         //登录按键点击
         bRes=true;
-      }else if(ClickTest(this.spRegtBtn, posTouch, DefCA)){
+      }else if(ClickTest(this.m_spRegtBtn, posTouch, DefCA)){
         //注册按键点击
         bRes=true;
       }
@@ -94,6 +101,10 @@ var CWelcomBtns=cc.Layer.extend({
   onTouchEnded:function(touch, event){
     var bRes=false;
     do{
+      //点击被锁定
+      if(this.m_bLockTouch)
+        break;
+
       //提取点击坐标
       var posTouch=touch.getLocation();
       //忽略鼠标右键点击
@@ -103,12 +114,18 @@ var CWelcomBtns=cc.Layer.extend({
       }
 
       //检查注册和登录按键点击
-      if(ClickTest(this.spLoginBtn, posTouch, ClickPT)){
+      if(ClickTest(this.m_spLoginBtn, posTouch, ClickPT)){
         //登录按键点击
         bRes=true;
-      }else if(ClickTest(this.spRegtBtn, posTouch, ClickPT)){
+        //锁定点击
+        this.m_bLockTouch=true;
+      }else if(ClickTest(this.m_spRegtBtn, posTouch, ClickPT)){
         //注册按键点击
         bRes=true;
+        //锁定点击
+        this.m_bLockTouch=true;
+        //调用根节点显示注册页面接口
+        this.m_pRoot.ShowRegLayer();
       }
     }while(false);
     return bRes;
@@ -116,5 +133,11 @@ var CWelcomBtns=cc.Layer.extend({
 
   onTouchCancelled:function(touch, event){
     return;
+  },
+
+  //重置页面
+  ReSet:function(){
+    //解锁点击
+    this.m_bLockTouch=false;
   }
 });
