@@ -18,6 +18,7 @@
         "src/welcom/register_layer.js",
         "src/common/common_functions.js",
         "src/common/wait_cursor.js",
+        "src/common/websocket_linker.js",
         "src/msg/pop_msg.js"
     ]
 }

@@ -24,6 +24,8 @@ var res = {
     msg_bg_png:"res/msg/msg_bg.png",
 
     wc_bg_png:"res/common/wait_cursor_bg.png",
+
+    json_netconf:"res/jf/netconf.json",
 };
 
 var g_resources = [];

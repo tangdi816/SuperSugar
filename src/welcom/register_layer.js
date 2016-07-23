@@ -245,12 +245,14 @@ var CRegLayer=cc.Layer.extend({
     }else{    //验证成功
       //开启等待光标
       this.m_pRoot.EnWaitCursor();
-      //提交注册
 
+      //提交注册
     }
   },
 
-  //弹出框回调
+
+
+//弹出框回调
   PMCallBack:function(){
     //显示输入框
     this.m_ebId.setVisible(true);

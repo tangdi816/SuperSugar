@@ -13,6 +13,11 @@ var CWelcomeLayer=cc.Layer.extend({
     //调用父类构造
     this._super();
 
+    //创建全局变量
+    g_strRootKey="sdo,f+9321?nf$38*";  //源解密key用来解密UUID数据包 和 连接服务器地址数据包
+    g_strMyUUID=""; //UUID
+    g_oLinker=new CWBLinker();
+
     //创建背景
     this.m_spBg=new cc.Sprite("res/bg.jpg");
     this.m_spBg.attr({

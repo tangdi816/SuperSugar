@@ -59,3 +59,37 @@ function ClickPT(pNode, posTouch)
   ptClick.setAutoRemoveOnFinish(true);
   pNode.addChild(ptClick, 30);
 }
+
+//通信加解密函数
+//参数1：源字符串
+//参数2：key字符串
+function EncodeAndDecode(strSource, strKey)
+{
+  var strRes="";
+  //提取源串长度
+  var iSorLen=strSource.length;
+  //提取key串长度
+  var iKeyLen=strKey.length;
+  //源码和key码按字节异或编码
+  for(var i=0; i<iSorLen; ++i){
+    //源码ASCII
+    var iSorAsc=strSource[i].charCodeAt();
+    //key码ASCII
+    var iKeyAsc=strKey[i%iKeyLen].charCodeAt();
+    //异或之后恢复成char插入结果字符串
+    strRes+=String.fromCharCode(iSorAsc^iKeyAsc);
+  }
+  return strRes;
+}
+
+//提取通信包命令号
+function GetCommand(strJson)
+{
+  var iCommand=0;
+  JSON.parse(strJson, function(key, value){
+    if("command"===key){
+      iCommand=value;
+    }
+  });
+  return iCommand;
+}
