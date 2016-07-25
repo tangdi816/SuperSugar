@@ -97,6 +97,16 @@ var CWelcomeLayer=cc.Layer.extend({
     });
     this.addChild(this.m_pRegLayer, 7);
 
+    //创建登录页面
+    this.m_pLogLayer=new CLoginLayer(this);
+    this.m_pLogLayer.attr({
+      anchorX:0,
+      anchorY:0,
+      x:this.m_sizWin.width,
+      y:0
+    });
+    this.addChild(this.m_pLogLayer, 7);
+
     //创建等待光标
     this.m_pWaitCursor=new CWaitCursor();
     this.m_pWaitCursor.attr({
@@ -192,6 +202,21 @@ var CWelcomeLayer=cc.Layer.extend({
     var pAc2=cc.moveTo(0.3, cc.p(0, 0));
     pAc2.easing(cc.easeElasticOut(0.2));
     this.m_pRegLayer.runAction(pAc2);
+  },
+
+  //显示登录页面
+  ShowLogLayer:function(){
+    //欢迎页面飞出
+    var Ac1=cc.moveTo(0.1, cc.p(-this.m_sizWin.width, 0));
+    this.m_pWlcBtns.runAction(Ac1);
+
+    //清除输入框
+    this.m_pLogLayer.ClearInput();
+    //注册页面飞入
+    this.m_pLogLayer.setPosition(cc.p(this.m_sizWin.width, 0));
+    var pAc2=cc.moveTo(0.3, cc.p(0, 0));
+    pAc2.easing(cc.easeElasticOut(0.2));
+    this.m_pLogLayer.runAction(pAc2);
   },
 
   //弹出消息框

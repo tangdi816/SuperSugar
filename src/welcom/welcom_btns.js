@@ -119,6 +119,8 @@ var CWelcomBtns=cc.Layer.extend({
         bRes=true;
         //锁定点击
         this.m_bLockTouch=true;
+        //调用根节点显示登录页面接口
+        this.m_pRoot.ShowLogLayer();
       }else if(ClickTest(this.m_spRegtBtn, posTouch, ClickPT)){
         //注册按键点击
         bRes=true;

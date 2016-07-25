@@ -1,6 +1,11 @@
 /**
  * Created by tangdi on 2016/7/23.
- * websocket 连接类
+ * websocket 连接类  建立全局对象，游戏生命周期一直存在
+ * 1、连接接入服务器
+ * 2、加解密服务器数据
+ * 3、接入服务器无法连接时，切换其他接入服务器
+ * 4、所有接入服务器无法连接时，从指定服务器拉取新的接入服务器地址
+ * 5、收到服务器消息，将消息推送到注册的上层消息解析模块
  */
 
 //构造参数：
@@ -137,7 +142,7 @@ CWBLinker.prototype={
     var oMsg=JSON.parse(strMsg);
 
     //解析命令号
-    if(230000===oMsg.command){          //服务器地址数据包
+    if(230000===oMsg.comm){          //服务器地址数据包
       this.m_arAddres=oMsg.addres;
       //最大地址数量
       this.m_iMaxAN=this.m_arAddres.length;
@@ -147,7 +152,7 @@ CWBLinker.prototype={
       this.m_bRecvAddr=false;
       //建立连接
       this.CreateLink();
-    }else if(230001===oMsg.command){    //UUID数据包
+    }else if(230001===oMsg.comm){    //UUID数据包
       g_strMyUUID=oMsg.uid;
     }else{  //其它数据包
       //消息推送开启
@@ -175,7 +180,7 @@ CWBLinker.prototype={
     this.m_pLETarget=pLETarget;
   },
 
-  //设置推送消息
+  //设置推送消息开关
   //参数：true推送  false不推送
   SetSendMsg:function(bIsSend){
     this.m_bSendMsg=bIsSend;

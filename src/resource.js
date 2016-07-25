@@ -9,6 +9,7 @@ var res = {
     wlc_ok_png:"res/welcome/ok_btn.png",
     wlc_cancel_png:"res/welcome/cancel_btn.png",
     wlc_reg_bg_png:"res/welcome/reg_bg.png",
+    wlc_log_bg_png:"res/welcome/log_bg.png",
 
     wlc_bg_plist:"res/pt/wlcbg.plist",
     wlc_bg_png:"res/pt/wlcbg.png",
